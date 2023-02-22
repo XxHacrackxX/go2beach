@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1084536942223",
+    "project_id": "go2beach-15a31",
+    "storage_bucket": "go2beach-15a31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084536942223:android:d65023ecf48b5bca024afa",
+        "android_client_info": {
+          "package_name": "com.example.go2beach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084536942223-0ej2psk2sfdrqvptktd5h38iiusbi2ap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJhBM8Z09eSFsJKq8ID1wHOnAPHWAhaxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084536942223-0ej2psk2sfdrqvptktd5h38iiusbi2ap.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1084536942223-ll2oqd599sdojal5703b80nvvlm79rqk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.go2beach"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:email_validator/email_validator.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -8,6 +11,9 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final formkey = GlobalKey<FormState>();
   bool _obscureTextPassword = true;
   bool _obscureTextPassword1 = true;
   final _focusNodeEmail = FocusNode();
@@ -16,7 +22,28 @@ class _RegisterState extends State<Register> {
   final _focusNodeNome = FocusNode();
   final _focusNodeData = FocusNode();
   final _focusNodeConfermaPassword = FocusNode();
+  User? user;
   @override
+  Future signUp() async {
+    final isValid = formkey.currentState!.validate();
+    if (!isValid) return;
+    /*showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+                child: CircularProgressIndicator(
+              key: formkey,
+            )));*/
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      Utils.showSnackBar(e.message);
+    }
+  }
+
   void dispose() {
     _focusNodeEmail.dispose();
     _focusNodePassword.dispose();
@@ -43,29 +70,29 @@ class _RegisterState extends State<Register> {
       );
   Widget _formWidget() => Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
-        child: Card(
+        child: Form(
+          key: formkey,
+          child: Card(
             clipBehavior: Clip.antiAlias,
             elevation: 2.0,
             color: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            child: Container(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 24),
-              width: 300,
-              child: Column(children: [
-                _nomeField(),
-                const Divider(height: 0),
-                _cognomeField(),
-                const Divider(height: 0),
-                _datanascitaField(),
-                const Divider(height: 0),
-                _emailField(),
-                const Divider(height: 0),
-                _passwordField(),
-                const Divider(height: 0),
-                _confermapasswordField(),
-              ]),
-            )),
+            child: Column(children: [
+              _nomeField(),
+              const Divider(height: 0),
+              _cognomeField(),
+              const Divider(height: 0),
+              _datanascitaField(),
+              const Divider(height: 0),
+              _emailField(),
+              const Divider(height: 0),
+              _passwordField(),
+              const Divider(height: 0),
+              _confermapasswordField(),
+            ]),
+          ),
+        ),
       );
   Widget _nomeField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
@@ -127,27 +154,38 @@ class _RegisterState extends State<Register> {
       );
   Widget _emailField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (email) {
+            email != null && !EmailValidator.validate(email)
+                ? 'Enter a valid email'
+                : null;
+          },
           focusNode: _focusNodeEmail,
           keyboardType: TextInputType.emailAddress,
           style: const TextStyle(fontSize: 12.0, color: Colors.black),
           decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Inserisci Indirizzo email',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: TextStyle(fontSize: 17),
               icon: Icon(
                 Icons.email,
                 size: 22,
               )),
-          onSubmitted: (_) {
+          onSaved: (_) {
             _focusNodePassword.requestFocus();
           },
+          controller: _emailController,
         ),
       );
   Widget _passwordField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          controller: _passwordController,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) => value != null && value.length < 6
+              ? 'Inserisci almeno 6 caratteri'
+              : null,
           focusNode: _focusNodePassword,
           obscureText: _obscureTextPassword,
           style: const TextStyle(fontSize: 12.0, color: Colors.black),
@@ -174,7 +212,7 @@ class _RegisterState extends State<Register> {
                   ))),
           // nella login_page si wrappa tutto il container di riga 35 in un SingleChildScrollView poi si imposta una height: MediaQuery.of(context).size.height
           // la medesima cosa anche con width: MediaQuery.of(context).size.height
-          onSubmitted: (_) {
+          onSaved: (_) {
             _focusNodeConfermaPassword.requestFocus();
           },
         ),
@@ -220,6 +258,19 @@ class _RegisterState extends State<Register> {
             style: TextStyle(color: Colors.white, fontSize: 25),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          signUp();
+        },
       );
+}
+
+class Utils {
+  static showSnackBar(String? text) {
+    final messengerKey = GlobalKey<ScaffoldMessengerState>();
+    if (text == null) return;
+    final snackBar = SnackBar(content: Text(text), backgroundColor: Colors.red);
+    messengerKey.currentState!
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
 }

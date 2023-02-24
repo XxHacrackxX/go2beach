@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
       ),
       extendBodyBehindAppBar: true,
       body: Container(
-        padding: const EdgeInsets.all(64),
         color: const Color.fromARGB(255, 131, 198, 230),
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

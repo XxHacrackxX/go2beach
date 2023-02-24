@@ -15,7 +15,8 @@ class _Home extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding:
+            const EdgeInsets.only(left: 55, right: 20, top: 50, bottom: 50),
         child: SingleChildScrollView(
           child: Wrap(
             children: [

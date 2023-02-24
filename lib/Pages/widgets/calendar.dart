@@ -10,23 +10,26 @@ class Calendar extends StatefulWidget {
 class _Calendar extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: MonthView(
-        controller: EventController(),
-        minMonth: DateTime(1990),
-        maxMonth: DateTime(2050),
-        cellAspectRatio: 1,
-        onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
-        onCellTap: (events, date) {
-          // Implement callback when user taps on a cell.
-          print(events);
-        },
-        startDay: WeekDays.sunday, // To change the first day of the week.
-        // This callback will only work if cellBuilder is null.
-        onEventTap: (event, date) => print(event),
-        onDateLongPress: (date) => print(date),
+    return Container(
+      padding: EdgeInsets.only(top: 25),
+      child: Scaffold(
+        body: MonthView(
+          controller: EventController(),
+          minMonth: DateTime(1990),
+          maxMonth: DateTime(2050),
+          cellAspectRatio: 1,
+          onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+          onCellTap: (events, date) {
+            // Implement callback when user taps on a cell.
+            print(events);
+          },
+          startDay: WeekDays.sunday, // To change the first day of the week.
+          // This callback will only work if cellBuilder is null.
+          onEventTap: (event, date) => print(event),
+          onDateLongPress: (date) => print(date),
+        ),
+        backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Colors.transparent,
     );
   }
 }

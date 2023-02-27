@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:go2beach/Pages/homepage.dart';
 import 'package:go2beach/Pages/login_page.dart';
 import 'package:go2beach/Pages/welcome_page.dart';
+import 'package:go2beach/Pages/widgets/info.dart';
+import 'package:go2beach/Pages/widgets/privacy.dart';
 
 class Altro extends StatefulWidget {
   const Altro({Key? key}) : super(key: key);
@@ -34,7 +36,11 @@ class _Altro extends State<Altro> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.white)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Privacy(),
+                      ));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
@@ -54,7 +60,10 @@ class _Altro extends State<Altro> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.white)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Info()));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,

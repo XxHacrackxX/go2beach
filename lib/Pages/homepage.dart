@@ -30,11 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      extendBodyBehindAppBar: true,
       body: Container(
         color: const Color.fromARGB(255, 131, 198, 230),
         child: _widgetOptions.elementAt(_selectedIndex),

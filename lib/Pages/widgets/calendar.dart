@@ -11,7 +11,7 @@ class _Calendar extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 25),
+      padding: EdgeInsets.only(top: 65),
       child: Scaffold(
         body: MonthView(
           controller: EventController(),

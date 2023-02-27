@@ -26,8 +26,9 @@ class _SignInState extends State<SignIn> {
           email: email, password: password);
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not.found") {
-        print("Utente non trovato");
+      if (e.code == "invalid-email" || e.code == "wrong-password") {
+        print("Email o password sbagliata");
+        customAlertDialog(context);
       }
     }
     return user;
@@ -100,7 +101,6 @@ class _SignInState extends State<SignIn> {
           decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Indirizzo email',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: TextStyle(fontSize: 17),
               icon: Icon(
                 Icons.email,
@@ -115,14 +115,12 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
         child: TextField(
           controller: _passwordController,
-
           focusNode: _focusNodePassword,
           obscureText: _obscureTextPassword,
           style: const TextStyle(fontSize: 16.0, color: Colors.black),
           decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Password',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: const TextStyle(fontSize: 17),
               icon: const Icon(
                 Icons.password,
@@ -141,15 +139,11 @@ class _SignInState extends State<SignIn> {
                     size: 22,
                     color: Colors.black,
                   ))),
-          // nella login_page si wrappa tutto il container di riga 35 in un SingleChildScrollView poi si imposta una height: MediaQuery.of(context).size.height
-          // la medesima cosa anche con width: MediaQuery.of(context).size.height
-
           onSubmitted: (_) async {
             User? user = await loginUsingEmailPassword(
                 email: _emailController.text,
                 password: _passwordController.text,
                 context: context);
-            print(user);
             if (user != null) {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => (HomePage())));
@@ -178,4 +172,29 @@ class _SignInState extends State<SignIn> {
           }
         },
       );
+  static void customAlertDialog(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Errore"),
+      content: const Text("Utente o password sbagliato"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
 }

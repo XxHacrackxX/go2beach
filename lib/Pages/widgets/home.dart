@@ -41,7 +41,7 @@ class _Home extends State<Home> {
                     children: [
                       Ink.image(
                         image: NetworkImage(
-                            "https://scontent-fco2-1.xx.fbcdn.net/v/t39.30808-6/330579137_565243368659554_7562562589408494825_n.png?_nc_cat=103&ccb=1-7&_nc_sid=e3f864&_nc_ohc=Is6PihPSsIEAX9-lep2&_nc_ht=scontent-fco2-1.xx&oh=00_AfBtvPgcz_HJos4wb5DzR-rTaRjC5MKY3xXejJcqp0y0Ug&oe=63FC4CB4"),
+                            "https://scontent-fco2-1.xx.fbcdn.net/v/t39.30808-6/330579137_565243368659554_7562562589408494825_n.png?_nc_cat=103&ccb=1-7&_nc_sid=e3f864&_nc_ohc=mF77DI93Rq8AX8i-05B&tn=kf5h-3b--Mrn-CT3&_nc_ht=scontent-fco2-1.xx&oh=00_AfBRzqn3NCooDKKbJ3qarKUrjxeqhESfn1-n04UG-O1XNw&oe=64023B74"),
                         height: 150,
                         width: 300,
                         fit: BoxFit.fill,

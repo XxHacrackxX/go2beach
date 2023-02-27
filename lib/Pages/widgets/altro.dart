@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:go2beach/Pages/homepage.dart';
+import 'package:go2beach/Pages/login_page.dart';
+import 'package:go2beach/Pages/welcome_page.dart';
 
 class Altro extends StatefulWidget {
   const Altro({Key? key}) : super(key: key);
@@ -63,6 +69,35 @@ class _Altro extends State<Altro> {
                       ],
                     ),
                   ),
+                  Divider(
+                    height: 310,
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.logout),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 83),
+                          child: Text(
+                            'ESCI',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                backgroundColor: Colors.red),
+                          ),
+                        ),
+                        onPressed: () {
+                          _signOut();
+                          Navigator.of(context).pop(MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                        },
+                      ),
+                    ],
+                  ),
                 ]),
               )),
         ),
@@ -70,4 +105,8 @@ class _Altro extends State<Altro> {
       ),
     );
   }
+}
+
+Future<void> _signOut() async {
+  await FirebaseAuth.instance.signOut();
 }

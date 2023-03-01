@@ -1,6 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../homepage.dart';
 
@@ -30,18 +32,29 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
-  static Future<User?> registerUsingEmailPassword(
-      {required String email,
+  Future<Map<String, dynamic>> registerUsingEmailPassword(
+      {required String Nome,
+      required String Cognome,
+      required String Data,
+      required String email,
       required String password,
       required String ConfermaPassword,
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
+    final user = <String, dynamic>{
+      "Nome": "$Nome",
+      "Cognome": "$Cognome",
+      "Data": "$Data",
+      "Email": "$email",
+      "Password": "$password",
+    };
     if (password == ConfermaPassword) {
       try {
-        UserCredential userCredential = await auth
+        /*UserCredential userCredential = await auth
             .createUserWithEmailAndPassword(email: email, password: password);
-        user = userCredential.user;
+        user = userCredential.user;*/
+        db.collection("users").add(user).then((DocumentReference doc) =>
+            print('DocumentSnapshot added with ID: ${doc.id}'));
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {
           print("Email gia' in uso");
@@ -59,7 +72,10 @@ class _RegisterState extends State<Register> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _ConfermapasswordController =
       TextEditingController();
-
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _cognomeController = TextEditingController();
+  final TextEditingController _dataController = TextEditingController();
+  var db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(top: 24.0),
@@ -106,65 +122,74 @@ class _RegisterState extends State<Register> {
       );
   Widget _nomeField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          controller: _nomeController,
+          validator: (value) => value != null ? 'Inserisci il nome' : null,
           focusNode: _focusNodeNome,
           style: const TextStyle(fontSize: 12.0, color: Colors.black),
           decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Inserisci Nome',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: TextStyle(fontSize: 17),
               icon: Icon(
                 Icons.people_alt,
                 size: 22,
               )),
-          onSubmitted: (_) {
+          onFieldSubmitted: (_) {
             _focusNodeCognome.requestFocus();
           },
         ),
       );
   Widget _cognomeField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          controller: _cognomeController,
+          validator: (value) => value != null ? 'Inserisci il nome' : null,
           focusNode: _focusNodeCognome,
           style: const TextStyle(fontSize: 12.0, color: Colors.black),
           decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Inserisci Cognoome',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: TextStyle(fontSize: 17),
               icon: Icon(
                 Icons.people,
                 size: 22,
               )),
-          onSubmitted: (_) {
+          onFieldSubmitted: (_) {
             _focusNodeData.requestFocus();
           },
         ),
       );
   Widget _datanascitaField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          controller: _dataController,
+          validator: (value) =>
+              value != null ? 'Inserisci la data di nascita' : null,
           keyboardType: TextInputType.datetime,
           focusNode: _focusNodeData,
           style: const TextStyle(fontSize: 12.0, color: Colors.black),
           decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Inserisci Data di Nascita',
-              // aggiungere nel pubspec.yaml il pacchetto font_awesome_flutter
               hintStyle: TextStyle(fontSize: 17),
               icon: Icon(
                 Icons.calendar_month,
                 size: 22,
               )),
-          onSubmitted: (_) {
+          onFieldSubmitted: (_) {
             _focusNodeEmail.requestFocus();
           },
         ),
       );
   Widget _emailField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          validator: (email) {
+            email != null && !EmailValidator.validate(email)
+                ? 'Inserisci un e-mail valida'
+                : null;
+          },
           controller: _emailController,
           focusNode: _focusNodeEmail,
           keyboardType: TextInputType.emailAddress,
@@ -177,14 +202,17 @@ class _RegisterState extends State<Register> {
                 Icons.email,
                 size: 22,
               )),
-          onSubmitted: (_) {
+          onFieldSubmitted: (_) {
             _focusNodePassword.requestFocus();
           },
         ),
       );
   Widget _passwordField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          validator: (value) => value != null && value.length < 6
+              ? 'Inserisci almeno 6 caratteri'
+              : null,
           controller: _passwordController,
           focusNode: _focusNodePassword,
           obscureText: _obscureTextPassword,
@@ -210,14 +238,17 @@ class _RegisterState extends State<Register> {
                     size: 22,
                     color: Colors.black,
                   ))),
-          onSubmitted: (_) {
+          onFieldSubmitted: (_) {
             _focusNodeConfermaPassword.requestFocus();
           },
         ),
       );
   Widget _confermapasswordField() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: TextField(
+        child: TextFormField(
+          validator: (value) => value != null && value.length < 6
+              ? 'Inserisci almeno 6 caratteri'
+              : null,
           controller: _ConfermapasswordController,
           focusNode: _focusNodeConfermaPassword,
           obscureText: _obscureTextPassword1,
@@ -243,8 +274,11 @@ class _RegisterState extends State<Register> {
                     size: 22,
                     color: Colors.black,
                   ))),
-          onSubmitted: (_) async {
-            User? user = await registerUsingEmailPassword(
+          onFieldSubmitted: (_) async {
+            Map<String, dynamic> user = await registerUsingEmailPassword(
+                Nome: _nomeController.text,
+                Cognome: _cognomeController.text,
+                Data: _dataController.text,
                 email: _emailController.text,
                 password: _passwordController.text,
                 ConfermaPassword: _ConfermapasswordController.text,
@@ -266,7 +300,10 @@ class _RegisterState extends State<Register> {
           ),
         ),
         onPressed: () async {
-          User? user = await registerUsingEmailPassword(
+          Map<String, dynamic> user = await registerUsingEmailPassword(
+              Nome: _nomeController.text,
+              Cognome: _cognomeController.text,
+              Data: _dataController.text,
               email: _emailController.text,
               password: _passwordController.text,
               ConfermaPassword: _ConfermapasswordController.text,

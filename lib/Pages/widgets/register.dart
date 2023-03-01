@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
-  Future<Map<String, dynamic>> registerUsingEmailPassword(
+  Future<User?> registerUsingEmailPassword(
       {required String Nome,
       required String Cognome,
       required String Data,
@@ -48,23 +48,24 @@ class _RegisterState extends State<Register> {
       "Email": "$email",
       "Password": "$password",
     };
+    User? user2;
     if (password == ConfermaPassword) {
       try {
-        /*UserCredential userCredential = await auth
-            .createUserWithEmailAndPassword(email: email, password: password);
-        user = userCredential.user;*/
         db.collection("users").add(user).then((DocumentReference doc) =>
             print('DocumentSnapshot added with ID: ${doc.id}'));
+        UserCredential userCredential = await auth
+            .createUserWithEmailAndPassword(email: email, password: password);
+        user2 = userCredential.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {
           print("Email gia' in uso");
           customAlertDialog(context);
         }
       }
-      return user;
+      return user2;
     } else {
       customAlertDialogPassword(context);
-      return user;
+      return user2;
     }
   }
 
@@ -275,7 +276,7 @@ class _RegisterState extends State<Register> {
                     color: Colors.black,
                   ))),
           onFieldSubmitted: (_) async {
-            Map<String, dynamic> user = await registerUsingEmailPassword(
+            User? user = await registerUsingEmailPassword(
                 Nome: _nomeController.text,
                 Cognome: _cognomeController.text,
                 Data: _dataController.text,
@@ -284,8 +285,7 @@ class _RegisterState extends State<Register> {
                 ConfermaPassword: _ConfermapasswordController.text,
                 context: context);
             if (user != null) {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => (HomePage())));
+              customAlertDialogConSuccesso(context);
             }
           },
           textInputAction: TextInputAction.go,
@@ -300,7 +300,7 @@ class _RegisterState extends State<Register> {
           ),
         ),
         onPressed: () async {
-          Map<String, dynamic> user = await registerUsingEmailPassword(
+          User? user = await registerUsingEmailPassword(
               Nome: _nomeController.text,
               Cognome: _cognomeController.text,
               Data: _dataController.text,
@@ -309,8 +309,7 @@ class _RegisterState extends State<Register> {
               ConfermaPassword: _ConfermapasswordController.text,
               context: context);
           if (user != null) {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => (HomePage())));
+            customAlertDialogConSuccesso(context);
           }
         },
       );
@@ -324,6 +323,32 @@ class _RegisterState extends State<Register> {
     var dialog = AlertDialog(
       title: const Text("Errore"),
       content: const Text("Email gia' in uso"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  static void customAlertDialogConSuccesso(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Registrazione avvenuta con successo!"),
+      content: const Text("Ora puoi effettuare il Login"),
       actions: [
         okButton,
       ],

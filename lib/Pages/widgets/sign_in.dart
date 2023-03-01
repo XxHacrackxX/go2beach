@@ -5,8 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:go2beach/Pages/homepage.dart';
 import 'package:go2beach/Pages/welcome_page.dart';
 
+String? email;
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
+  static String? getEmail() {
+    return email;
+  }
+
   @override
   State<StatefulWidget> createState() => _SignInState();
 }
@@ -145,6 +151,9 @@ class _SignInState extends State<SignIn> {
                 password: _passwordController.text,
                 context: context);
             if (user != null) {
+              setState(() {
+                email = _emailController.text;
+              });
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => (HomePage())));
             }
@@ -167,6 +176,9 @@ class _SignInState extends State<SignIn> {
               context: context);
           print(user);
           if (user != null) {
+            setState(() {
+              email = _emailController.text;
+            });
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => (HomePage())));
           }

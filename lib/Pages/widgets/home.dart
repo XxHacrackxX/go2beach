@@ -3,6 +3,7 @@ import 'package:go2beach/Pages/welcome_page.dart';
 import 'package:go2beach/Pages/widgets/altro.dart';
 import 'package:go2beach/Pages/widgets/prenotazioni.dart';
 import 'package:go2beach/app.dart';
+import 'package:go2beach/Pages/widgets/sign_in.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,9 +22,9 @@ class _Home extends State<Home> {
           child: Wrap(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
+                padding: EdgeInsets.only(bottom: 50.0),
                 child: Text(
-                  "BENTORNATO, Nome Cognome",
+                  "BENTORNATO, ${SignIn.getEmail()}",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

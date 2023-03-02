@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go2beach/Pages/welcome_page.dart';
 import 'package:go2beach/Pages/widgets/altro.dart';
+import 'package:go2beach/Pages/widgets/lido.dart';
 import 'package:go2beach/Pages/widgets/prenotazioni.dart';
 import 'package:go2beach/app.dart';
 import 'package:go2beach/Pages/widgets/sign_in.dart';
@@ -37,7 +38,10 @@ class _Home extends State<Home> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Lido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(
@@ -70,7 +74,10 @@ class _Home extends State<Home> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Lido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(
@@ -103,7 +110,10 @@ class _Home extends State<Home> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Lido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(
@@ -136,7 +146,10 @@ class _Home extends State<Home> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Lido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(
@@ -169,7 +182,10 @@ class _Home extends State<Home> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Lido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(

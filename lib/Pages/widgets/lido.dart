@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go2beach/Pages/widgets/home.dart';
 
 class Lido extends StatefulWidget {
   const Lido({super.key});
@@ -23,9 +24,19 @@ class _Lido extends State<Lido> {
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: 20.0, right: 30),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Text(
+                      "  ${Home.getLido()}",
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    Divider(
+                      color: const Color.fromARGB(255, 131, 198, 230),
+                    ),
                     Text(
                       "      SCEGLI COSA VUOI PRENOTARE",
                       style: TextStyle(
@@ -38,7 +49,7 @@ class _Lido extends State<Lido> {
                 ),
               ),
               Divider(
-                height: 40,
+                height: 10,
                 color: const Color.fromARGB(255, 131, 198, 230),
               ),
               Material(

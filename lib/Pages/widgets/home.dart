@@ -48,7 +48,7 @@ class _Home extends State<Home> {
               Padding(
                 padding: EdgeInsets.only(bottom: 50.0),
                 child: Text(
-                  "BENTORNATO/A ${users.map((user) => user['Nome'])} ${users.map((user) => user['Cognome'])}, ${SignIn.getEmail()} ",
+                  "Bentornato  ${users.map((user) => user['Nome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')} ${users.map((user) => user['Cognome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')}, ${SignIn.getEmail()} ",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

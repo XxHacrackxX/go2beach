@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go2beach/Pages/widgets/home.dart';
+import 'package:go2beach/Pages/widgets/prenotabar.dart';
 
 class Lido extends StatefulWidget {
   const Lido({super.key});
@@ -38,7 +39,7 @@ class _Lido extends State<Lido> {
                       color: const Color.fromARGB(255, 131, 198, 230),
                     ),
                     Text(
-                      "      SCEGLI COSA VUOI PRENOTARE",
+                      "      Scegli cosa vuoi prenotare",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -95,7 +96,10 @@ class _Lido extends State<Lido> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PrenotaBar()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(

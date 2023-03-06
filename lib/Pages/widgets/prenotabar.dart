@@ -1,11 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:go2beach/Pages/widgets/home.dart';
 import 'package:go2beach/Pages/widgets/lido.dart';
+import 'package:go2beach/Pages/widgets/sign_in.dart';
 
 class PrenotaBar extends StatefulWidget {
   const PrenotaBar({super.key});
   @override
   State<StatefulWidget> createState() => _PrenotaBar();
+}
+
+int counterCocaCola = 0,
+    counterEstathe = 0,
+    counterSpritz = 0,
+    counterAcqua = 0,
+    counterFanta = 0;
+updateBar() async {
+  String? Email = SignIn.getEmail();
+  String? nomeLido = Home.getLido();
+  final barRef = await FirebaseFirestore.instance
+      .collection('$nomeLido')
+      .doc('Bar')
+      .update({
+    'Cocacola': FieldValue.increment(-counterCocaCola),
+    'Acqua': FieldValue.increment(-counterAcqua),
+    'Estathe': FieldValue.increment(-counterEstathe),
+    'Fanta': FieldValue.increment(-counterFanta),
+    'Spritz': FieldValue.increment(-counterSpritz)
+  });
+  final PrenotaBarRef =
+      await FirebaseFirestore.instance.collection('PrenotazioneBar').add({
+    "Email": Email,
+    "Lido": nomeLido,
+    "Cocacola": counterCocaCola,
+    "Acqua": counterAcqua,
+    "Fanta": counterFanta,
+    "Spritz": counterSpritz,
+    "Estathe": counterEstathe,
+    "Data": DateTime.now()
+  });
+  counterCocaCola = 0;
+  counterEstathe = 0;
+  counterSpritz = 0;
+  counterAcqua = 0;
+  counterFanta = 0;
 }
 
 class _PrenotaBar extends State<PrenotaBar> {
@@ -55,8 +94,16 @@ class _PrenotaBar extends State<PrenotaBar> {
                           textColor: Colors.white,
                           textSize: 22,
                           onCountChange: (count) {},
-                          onIncrement: (count) {},
-                          onDecrement: (count) {},
+                          onIncrement: (count) {
+                            setState(() {
+                              counterCocaCola = counterCocaCola + 1;
+                            });
+                          },
+                          onDecrement: (count) {
+                            setState(() {
+                              counterCocaCola = counterCocaCola - 1;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -85,8 +132,16 @@ class _PrenotaBar extends State<PrenotaBar> {
                           textColor: Colors.white,
                           textSize: 22,
                           onCountChange: (count) {},
-                          onIncrement: (count) {},
-                          onDecrement: (count) {},
+                          onIncrement: (count) {
+                            setState(() {
+                              counterEstathe = counterEstathe + 1;
+                            });
+                          },
+                          onDecrement: (count) {
+                            setState(() {
+                              counterEstathe = counterEstathe - 1;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -115,8 +170,16 @@ class _PrenotaBar extends State<PrenotaBar> {
                           textColor: Colors.white,
                           textSize: 22,
                           onCountChange: (count) {},
-                          onIncrement: (count) {},
-                          onDecrement: (count) {},
+                          onIncrement: (count) {
+                            setState(() {
+                              counterFanta = counterFanta + 1;
+                            });
+                          },
+                          onDecrement: (count) {
+                            setState(() {
+                              counterFanta = counterFanta - 1;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -145,8 +208,16 @@ class _PrenotaBar extends State<PrenotaBar> {
                           textColor: Colors.white,
                           textSize: 22,
                           onCountChange: (count) {},
-                          onIncrement: (count) {},
-                          onDecrement: (count) {},
+                          onIncrement: (count) {
+                            setState(() {
+                              counterAcqua = counterAcqua + 1;
+                            });
+                          },
+                          onDecrement: (count) {
+                            setState(() {
+                              counterAcqua = counterAcqua - 1;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -175,8 +246,16 @@ class _PrenotaBar extends State<PrenotaBar> {
                           textColor: Colors.white,
                           textSize: 22,
                           onCountChange: (count) {},
-                          onIncrement: (count) {},
-                          onDecrement: (count) {},
+                          onIncrement: (count) {
+                            setState(() {
+                              counterSpritz = counterSpritz + 1;
+                            });
+                          },
+                          onDecrement: (count) {
+                            setState(() {
+                              counterSpritz = counterSpritz - 1;
+                            });
+                          },
                         ),
                       ),
                     ],
@@ -194,7 +273,10 @@ class _PrenotaBar extends State<PrenotaBar> {
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         ))),
-                        onPressed: () {},
+                        onPressed: () {
+                          updateBar();
+                          customAlertDialogConSuccesso(context);
+                        },
                         icon: Icon(Icons.shopping_cart_checkout),
                         label: Padding(
                           padding: const EdgeInsets.all(20),
@@ -215,5 +297,31 @@ class _PrenotaBar extends State<PrenotaBar> {
       ),
       backgroundColor: const Color.fromARGB(255, 131, 198, 230),
     );
+  }
+
+  static void customAlertDialogConSuccesso(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Ordine effettuato con successo"),
+      content: const Text("Ordine ricevuto!"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
   }
 }

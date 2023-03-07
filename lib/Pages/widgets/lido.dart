@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go2beach/Pages/widgets/home.dart';
 import 'package:go2beach/Pages/widgets/prenotabar.dart';
+import 'package:go2beach/Pages/widgets/prenotalido.dart';
 
 class Lido extends StatefulWidget {
   const Lido({super.key});
@@ -59,7 +60,10 @@ class _Lido extends State<Lido> {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PrenotaLido()));
+                  },
                   child: Column(
                     children: [
                       Ink.image(

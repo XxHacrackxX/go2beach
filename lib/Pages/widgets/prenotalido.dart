@@ -3,7 +3,41 @@ import 'package:customizable_counter/customizable_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:go2beach/Pages/widgets/home.dart';
 import 'package:go2beach/Pages/widgets/lido.dart';
+import 'package:go2beach/Pages/widgets/prenotabar.dart';
 import 'package:go2beach/Pages/widgets/sign_in.dart';
+
+int counterSedie = 0;
+int counterLettino = 0;
+bool disponibile = true;
+int? X;
+int? Y;
+updateLido() async {
+  String? Email = SignIn.getEmail();
+  String? nomeLido = Home.getLido();
+  final lidoRef = await FirebaseFirestore.instance
+      .collection('$nomeLido')
+      .doc('LettinoSedie')
+      .update({
+    'Lettino': FieldValue.increment(-counterLettino),
+    'Sedie': FieldValue.increment(-counterSedie)
+  });
+  final prenotaLido =
+      await FirebaseFirestore.instance.collection('Prenotazioni').add({
+    "Email": Email,
+    "Lido": nomeLido,
+    "Lettini": counterLettino,
+    "Sedie": counterSedie,
+    "X": X,
+    "Y": Y,
+    "Data": DateTime.now()
+  });
+  counterLettino = 0;
+  counterSedie = 0;
+  final eliminaLido = await FirebaseFirestore.instance
+      .collection('$nomeLido')
+      .doc("$X$Y")
+      .update({"Disponibile": false});
+}
 
 class PrenotaLido extends StatefulWidget {
   const PrenotaLido({super.key});
@@ -12,6 +46,7 @@ class PrenotaLido extends StatefulWidget {
 }
 
 class _PrenotaLido extends State<PrenotaLido> {
+  int i = 0, j = 0, z = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,20 +56,21 @@ class _PrenotaLido extends State<PrenotaLido> {
       ),
       extendBody: true,
       body: Padding(
-          padding: EdgeInsets.only(left: 47, right: 30, top: 10, bottom: 50),
+          padding:
+              const EdgeInsets.only(left: 47, right: 30, top: 10, bottom: 50),
           child: SingleChildScrollView(
               child: Wrap(children: [
             Column(children: [
-              Text(
+              const Text(
                 "Scegli le attrezzature e la posizione",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              Divider(
+              const Divider(
                 height: 40,
-                color: const Color.fromARGB(255, 131, 198, 230),
+                color: Color.fromARGB(255, 131, 198, 230),
               ),
               Row(
                 children: [
@@ -57,18 +93,22 @@ class _PrenotaLido extends State<PrenotaLido> {
                       textSize: 22,
                       onCountChange: (count) {},
                       onIncrement: (count) {
-                        setState(() {});
+                        setState(() {
+                          counterLettino++;
+                        });
                       },
                       onDecrement: (count) {
-                        setState(() {});
+                        setState(() {
+                          counterLettino--;
+                        });
                       },
                     ),
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 height: 20,
-                color: const Color.fromARGB(255, 131, 198, 230),
+                color: Color.fromARGB(255, 131, 198, 230),
               ),
               Row(
                 children: [
@@ -91,33 +131,40 @@ class _PrenotaLido extends State<PrenotaLido> {
                       textSize: 22,
                       onCountChange: (count) {},
                       onIncrement: (count) {
-                        setState(() {});
+                        setState(() {
+                          counterSedie++;
+                        });
                       },
                       onDecrement: (count) {
-                        setState(() {});
+                        setState(() {
+                          counterSedie--;
+                        });
                       },
                     ),
                   ),
                 ],
               ),
               //
-              Divider(
+              const Divider(
                 height: 40,
-                color: const Color.fromARGB(255, 131, 198, 230),
+                color: Color.fromARGB(255, 131, 198, 230),
               ),
-              Text(
+              const Text(
                 "Scegli la posizione dell'ombrellone",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              Divider(
-                  height: 20, color: const Color.fromARGB(255, 131, 198, 230)),
-              for (int i = 0; i < 5; i++) Griglia(i),
-              Divider(
+              const Divider(
+                  height: 20, color: Color.fromARGB(255, 131, 198, 230)),
+              for (i = 0; i < 5; i++)
+                Row(children: [
+                  for (j = 0; j < 5; j++) Griglia(i, j),
+                ]),
+              const Divider(
                 height: 40,
-                color: const Color.fromARGB(255, 131, 198, 230),
+                color: Color.fromARGB(255, 131, 198, 230),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -129,10 +176,13 @@ class _PrenotaLido extends State<PrenotaLido> {
                                 RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
                     ))),
-                    onPressed: () {},
-                    icon: Icon(Icons.shopping_cart_checkout),
-                    label: Padding(
-                      padding: const EdgeInsets.all(20),
+                    onPressed: () {
+                      updateLido();
+                      customAlertDialogConSuccesso(context);
+                    },
+                    icon: const Icon(Icons.shopping_cart_checkout),
+                    label: const Padding(
+                      padding: EdgeInsets.all(20),
                       child: Text(
                         "Completa la prenotazione",
                         style: TextStyle(
@@ -147,26 +197,87 @@ class _PrenotaLido extends State<PrenotaLido> {
       backgroundColor: const Color.fromARGB(255, 131, 198, 230),
     );
   }
-}
 
-Widget Griglia(int i) {
-  return Container(
-    decoration: BoxDecoration(
-      image: DecorationImage(
-          fit: BoxFit.fill, image: AssetImage("assets/images/sabbia.jpg")),
-    ),
-    child: Wrap(
-      children: [
-        for (int i = 0; i < 5; i++)
+  static void customAlertDialogConXY(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: Text("Hai scelto l'ombrellone $X,$Y"),
+      content: const Text("Conferma scelta!"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  static void customAlertDialogConSuccesso(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Prenotazione effettuata con successo"),
+      content: const Text("Prenotazione ricevuta!"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  void settaggioGriglia(int i, int j) {
+    X = i;
+    Y = j;
+    disponibile = !disponibile;
+  }
+
+  Widget Griglia(int i, int j) {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            fit: BoxFit.fill, image: AssetImage("assets/images/sabbia.jpg")),
+      ),
+      child: Wrap(
+        children: [
           Padding(
             padding: const EdgeInsets.all(9),
             child: IconButton(
-              padding: EdgeInsets.fromLTRB(2, 1, 2, 1),
-              icon: Icon(Icons.square),
-              onPressed: () {},
+              padding: const EdgeInsets.fromLTRB(2, 1, 2, 1),
+              icon: const Icon(Icons.check_box_outline_blank),
+              onPressed: () {
+                settaggioGriglia(i, j);
+                customAlertDialogConXY(context);
+                print("$i,$j");
+              },
             ),
           ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }

@@ -41,6 +41,7 @@ class _visualizzaPLido extends State<visualizzaPLido> {
     var X = users.map((user) => user['X']).toList(growable: false);
     var Y = users.map((user) => user['Y']).toList(growable: false);
     int? count = lido.length;
+
     Widget Prenotazione(int i) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +52,7 @@ class _visualizzaPLido extends State<visualizzaPLido> {
           Row(
             children: [
               Text(
-                "Lido ${lido[i]}",
+                " Lido ${lido[i]}",
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 18,

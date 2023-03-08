@@ -22,7 +22,7 @@ updateLido() async {
     'Sedie': FieldValue.increment(-counterSedie)
   });
   final prenotaLido =
-      await FirebaseFirestore.instance.collection('Prenotazioni').add({
+      await FirebaseFirestore.instance.collection('PrenotazioneLido').add({
     "Email": Email,
     "Lido": nomeLido,
     "Lettini": counterLettino,

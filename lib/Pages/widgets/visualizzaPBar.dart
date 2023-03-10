@@ -41,6 +41,7 @@ class _visualizzaPBar extends State<visualizzaPBar> {
     var spritz = users.map((user) => user['Spritz']).toList(growable: false);
     var fanta = users.map((user) => user['Fanta']).toList(growable: false);
     var estathe = users.map((user) => user['Estathe']).toList(growable: false);
+    var id = users.map((user) => user['Id']).toList(growable: false);
     int? count = lido.length;
     var _numberToMonthMap = {
       01: "Gennaio",
@@ -136,7 +137,12 @@ class _visualizzaPBar extends State<visualizzaPBar> {
                 ),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    usersRef.doc("${id[i]}").delete().then(
+                          (doc) => customAlertDialogEliminazione(context),
+                          onError: (e) => print("Error updating document $e"),
+                        );
+                  },
                   icon: Icon(
                     Icons.delete,
                     color: Colors.red,
@@ -184,5 +190,31 @@ class _visualizzaPBar extends State<visualizzaPBar> {
             )),
       ),
     );
+  }
+
+  void customAlertDialogEliminazione(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: Text("Prenotazione Eliminata con Successo!"),
+      content: const Text("Clicca Ok per continuare."),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
   }
 }

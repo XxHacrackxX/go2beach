@@ -5,12 +5,24 @@ import 'package:go2beach/Pages/widgets/home.dart';
 import 'package:go2beach/Pages/widgets/lido.dart';
 import 'package:go2beach/Pages/widgets/prenotabar.dart';
 import 'package:go2beach/Pages/widgets/sign_in.dart';
+import 'dart:math';
 
 int counterSedie = 0;
 int counterLettino = 0;
 bool disponibile = true;
 int? X;
 int? Y;
+var disponibilita;
+Map<String, dynamic> posizioni = {
+  "X": null,
+  "Y": null,
+  "Disponibile": null,
+};
+String id = getRandomString(10);
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 updateLido() async {
   String? Email = SignIn.getEmail();
   String? nomeLido = Home.getLido();
@@ -21,15 +33,18 @@ updateLido() async {
     'Lettino': FieldValue.increment(-counterLettino),
     'Sedie': FieldValue.increment(-counterSedie)
   });
-  final prenotaLido =
-      await FirebaseFirestore.instance.collection('PrenotazioneLido').add({
+  final prenotaLido = await FirebaseFirestore.instance
+      .collection('PrenotazioneLido')
+      .doc(id)
+      .set({
     "Email": Email,
     "Lido": nomeLido,
     "Lettini": counterLettino,
     "Sedie": counterSedie,
     "X": X,
     "Y": Y,
-    "Data": DateTime.now()
+    "Data": DateTime.now(),
+    "Id": id,
   });
   counterLettino = 0;
   counterSedie = 0;
@@ -250,10 +265,78 @@ class _PrenotaLido extends State<PrenotaLido> {
         });
   }
 
-  void settaggioGriglia(int i, int j) {
+  static void customAlertDialogConSuccessoOmbrellone(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Posizione disponibile"),
+      content: const Text("Clicca ok per proseguire"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  static void customAlertDialogConInSuccesso(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: const Text("Posizione non disponibile"),
+      content: const Text("Scegli un'altra posizione per l'ombrellone"),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  void settaggioGriglia(int i, int j) async {
     X = i;
     Y = j;
-    disponibile = !disponibile;
+    String? nomeLido = Home.getLido();
+    final snapshot = await FirebaseFirestore.instance
+        .collection('$nomeLido')
+        .doc('$X$Y')
+        .get();
+    posizioni = snapshot.data()!;
+    print(posizioni);
+    if (posizioni['Disponibile'] == true) {
+      customAlertDialogConSuccessoOmbrellone(context);
+    } else {
+      customAlertDialogConInSuccesso(context);
+    }
+    posizioni = {
+      "X": null,
+      "Y": null,
+      "Disponibile": null,
+    };
   }
 
   Widget Griglia(int i, int j) {
@@ -271,7 +354,7 @@ class _PrenotaLido extends State<PrenotaLido> {
               icon: const Icon(Icons.check_box_outline_blank),
               onPressed: () {
                 settaggioGriglia(i, j);
-                customAlertDialogConXY(context);
+
                 print("$i,$j");
               },
             ),

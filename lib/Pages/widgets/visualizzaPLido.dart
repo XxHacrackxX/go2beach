@@ -40,6 +40,8 @@ class _visualizzaPLido extends State<visualizzaPLido> {
     var sedie = users.map((user) => user['Sedie']).toList(growable: false);
     var X = users.map((user) => user['X']).toList(growable: false);
     var Y = users.map((user) => user['Y']).toList(growable: false);
+    var id = users.map((user) => user['Id']).toList(growable: false);
+
     int? count = lido.length;
     var _numberToMonthMap = {
       01: "Gennaio",
@@ -135,7 +137,18 @@ class _visualizzaPLido extends State<visualizzaPLido> {
                 ),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    usersRef.doc("${id[i]}").delete().then(
+                      (doc) {
+                        final eliminaLido = FirebaseFirestore.instance
+                            .collection('${lido[i]}')
+                            .doc("${X[i]}${Y[i]}")
+                            .update({"Disponibile": true});
+                        customAlertDialogEliminazione(context);
+                      },
+                      onError: (e) => print("Error updating document $e"),
+                    );
+                  },
                   icon: Icon(
                     Icons.delete,
                     color: Colors.red,
@@ -183,5 +196,31 @@ class _visualizzaPLido extends State<visualizzaPLido> {
             )),
       ),
     );
+  }
+
+  void customAlertDialogEliminazione(BuildContext context) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    var dialog = AlertDialog(
+      title: Text("Prenotazione Eliminata con Successo!"),
+      content: const Text("Clicca Ok per continuare."),
+      actions: [
+        okButton,
+      ],
+      shape: RoundedRectangleBorder(
+          side: const BorderSide(style: BorderStyle.none),
+          borderRadius: BorderRadius.circular(10)),
+      elevation: 10,
+      backgroundColor: Colors.white,
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
   }
 }

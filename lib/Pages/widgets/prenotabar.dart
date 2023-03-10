@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go2beach/Pages/widgets/home.dart';
 import 'package:go2beach/Pages/widgets/lido.dart';
 import 'package:go2beach/Pages/widgets/sign_in.dart';
+import 'dart:math';
 
 class PrenotaBar extends StatefulWidget {
   const PrenotaBar({super.key});
@@ -16,6 +17,12 @@ int counterCocaCola = 0,
     counterSpritz = 0,
     counterAcqua = 0,
     counterFanta = 0;
+String id = getRandomString(10);
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 updateBar() async {
   String? Email = SignIn.getEmail();
   String? nomeLido = Home.getLido();
@@ -29,8 +36,10 @@ updateBar() async {
     'Fanta': FieldValue.increment(-counterFanta),
     'Spritz': FieldValue.increment(-counterSpritz)
   });
-  final PrenotaBarRef =
-      await FirebaseFirestore.instance.collection('PrenotazioneBar').add({
+  final PrenotaBarRef = await FirebaseFirestore.instance
+      .collection('PrenotazioneBar')
+      .doc(id)
+      .set({
     "Email": Email,
     "Lido": nomeLido,
     "Cocacola": counterCocaCola,
@@ -38,7 +47,8 @@ updateBar() async {
     "Fanta": counterFanta,
     "Spritz": counterSpritz,
     "Estathe": counterEstathe,
-    "Data": DateTime.now()
+    "Data": DateTime.now(),
+    "Id": id,
   });
   counterCocaCola = 0;
   counterEstathe = 0;

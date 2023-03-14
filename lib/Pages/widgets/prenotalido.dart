@@ -18,6 +18,10 @@ Map<String, dynamic> posizioni = {
   "Y": null,
   "Disponibile": null,
 };
+Map<String, dynamic> contatori = {
+  "Lettino": 0,
+  "Sedie": 0,
+};
 String id = getRandomString(10);
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
@@ -61,7 +65,18 @@ class PrenotaLido extends StatefulWidget {
 }
 
 class _PrenotaLido extends State<PrenotaLido> {
-  int i = 0, j = 0, z = 0;
+  int i = 0, j = 0;
+  void dispose() {
+    i = 0;
+    j = 0;
+    counterLettino = 0;
+    counterSedie = 0;
+    super.dispose();
+  }
+
+  double maxCounterLettini = Lido.getMaxCountLettini();
+  double maxCounterSedie = Lido.getMaxCountSedie();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +116,7 @@ class _PrenotaLido extends State<PrenotaLido> {
                   Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: CustomizableCounter(
+                      maxCount: maxCounterLettini,
                       borderWidth: 5,
                       borderRadius: 100,
                       backgroundColor: Colors.blue,
@@ -139,6 +155,7 @@ class _PrenotaLido extends State<PrenotaLido> {
                   Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: CustomizableCounter(
+                      maxCount: maxCounterSedie,
                       borderWidth: 5,
                       borderRadius: 100,
                       backgroundColor: Colors.blue,

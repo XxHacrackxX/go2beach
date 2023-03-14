@@ -17,6 +17,15 @@ int counterCocaCola = 0,
     counterSpritz = 0,
     counterAcqua = 0,
     counterFanta = 0;
+
+Map<String, dynamic> counters = {
+  "Acqua": 0,
+  "Cocacola": 0,
+  "Estathe": 0,
+  "Fanta": 0,
+  "Spritz": 0,
+};
+String? nomeLido = Home.getLido();
 String id = getRandomString(10);
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
@@ -59,6 +68,39 @@ updateBar() async {
 
 class _PrenotaBar extends State<PrenotaBar> {
   @override
+  void initState() {
+    setState(() {
+      getBevande();
+    });
+    super.initState();
+  }
+
+  getBevande() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('$nomeLido')
+        .doc('Bar')
+        .get();
+    counters = snapshot.data()!;
+    print(counters);
+  }
+
+  @override
+  void dispose() {
+    getBevande();
+    counterCocaCola = 0;
+    counterEstathe = 0;
+    counterSpritz = 0;
+    counterAcqua = 0;
+    counterFanta = 0;
+    super.dispose();
+  }
+
+  double maxCounterAcqua = double.parse(counters['Acqua'].toString());
+  double maxCounterCocaCola = double.parse(counters['Cocacola'].toString());
+  double maxCounterEstathe = double.parse(counters['Estathe'].toString());
+  double maxCounterFanta = double.parse(counters['Fanta'].toString());
+  double maxCounterSpritz = double.parse(counters['Spritz'].toString());
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -98,6 +140,8 @@ class _PrenotaBar extends State<PrenotaBar> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: CustomizableCounter(
+                          maxCount:
+                              double.parse(counters['Cocacola'].toString()),
                           borderWidth: 5,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
@@ -136,6 +180,8 @@ class _PrenotaBar extends State<PrenotaBar> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: CustomizableCounter(
+                          maxCount:
+                              double.parse(counters['Estathe'].toString()),
                           borderWidth: 5,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
@@ -174,6 +220,7 @@ class _PrenotaBar extends State<PrenotaBar> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: CustomizableCounter(
+                          maxCount: double.parse(counters['Fanta'].toString()),
                           borderWidth: 5,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
@@ -212,6 +259,7 @@ class _PrenotaBar extends State<PrenotaBar> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: CustomizableCounter(
+                          maxCount: double.parse(counters['Acqua'].toString()),
                           borderWidth: 5,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
@@ -250,6 +298,7 @@ class _PrenotaBar extends State<PrenotaBar> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40),
                         child: CustomizableCounter(
+                          maxCount: double.parse(counters['Spritz'].toString()),
                           borderWidth: 5,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,

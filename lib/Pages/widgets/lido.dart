@@ -4,70 +4,100 @@ import 'package:go2beach/Pages/widgets/prenotabar.dart';
 import 'package:go2beach/Pages/widgets/prenotalido.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-double maxCounterAcqua = double.parse(counters['Acqua'].toString());
-double maxCounterCocaCola = double.parse(counters['Cocacola'].toString());
-double maxCounterEstathe = double.parse(counters['Estathe'].toString());
-double maxCounterFanta = double.parse(counters['Fanta'].toString());
-double maxCounterSpritz = double.parse(counters['Spritz'].toString());
-double maxCounterLettini = double.parse(contatori['Lettino'].toString());
-double maxCounterSedie = double.parse(contatori['Sedie'].toString());
+Map<String, dynamic> counters = {
+  "Acqua": 0,
+  "Cocacola": 0,
+  "Estathe": 0,
+  "Fanta": 0,
+  "Spritz": 0,
+};
+Map<String, dynamic> contatori = {
+  "Lettino": 0,
+  "Sedie": 0,
+};
+double? maxCounterAcqua;
+double? maxCounterCocaCola;
+double? maxCounterEstathe;
+double? maxCounterFanta;
+double? maxCounterSpritz;
+double? maxCounterLettini;
+double? maxCounterSedie;
 
 class Lido extends StatefulWidget {
   const Lido({super.key});
   @override
   State<StatefulWidget> createState() => _Lido();
-  static double getMaxCountCocacola() {
+  static double? getMaxCountCocacola() {
     return maxCounterCocaCola;
   }
 
-  static double getMaxCountAcqua() {
+  static double? getMaxCountAcqua() {
     return maxCounterAcqua;
   }
 
-  static double getMaxCountEstathe() {
+  static double? getMaxCountEstathe() {
     return maxCounterEstathe;
   }
 
-  static double getMaxCountFanta() {
+  static double? getMaxCountFanta() {
     return maxCounterFanta;
   }
 
-  static double getMaxCountSpritz() {
+  static double? getMaxCountSpritz() {
     return maxCounterSpritz;
   }
 
-  static double getMaxCountLettini() {
+  static double? getMaxCountLettini() {
     return maxCounterLettini;
   }
 
-  static double getMaxCountSedie() {
+  static double? getMaxCountSedie() {
     return maxCounterSedie;
   }
 }
 
 getBevande() async {
-  final snapshot =
-      await FirebaseFirestore.instance.collection('$nomeLido').doc('Bar').get();
+  final snapshot = await FirebaseFirestore.instance
+      .collection('${Home.getLido()}')
+      .doc('Bar')
+      .get();
   counters = snapshot.data()!;
   print(counters);
+  maxCounterAcqua = double.parse(counters['Acqua'].toString());
+  maxCounterCocaCola = double.parse(counters['Cocacola'].toString());
+  maxCounterEstathe = double.parse(counters['Estathe'].toString());
+  maxCounterFanta = double.parse(counters['Fanta'].toString());
+  maxCounterSpritz = double.parse(counters['Spritz'].toString());
 }
 
 getLettinoSedie() async {
   final snapshot = await FirebaseFirestore.instance
-      .collection('$nomeLido')
+      .collection('${Home.getLido()}')
       .doc('LettinoSedie')
       .get();
   contatori = snapshot.data()!;
   print(contatori);
+  maxCounterLettini = double.parse(contatori['Lettino'].toString());
+  maxCounterSedie = double.parse(contatori['Sedie'].toString());
 }
 
 class _Lido extends State<Lido> {
   @override
+  void dispose() {
+    Map<String, dynamic> counters = {
+      "Acqua": 0,
+      "Cocacola": 0,
+      "Estathe": 0,
+      "Fanta": 0,
+      "Spritz": 0,
+    };
+    super.dispose();
+  }
+
+  @override
   void initState() {
-    setState(() {
-      getBevande();
-      getLettinoSedie();
-    });
+    getBevande();
+    getLettinoSedie();
     super.initState();
   }
 
@@ -122,6 +152,8 @@ class _Lido extends State<Lido> {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
                   onTap: () {
+                    getBevande();
+                    getLettinoSedie();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => PrenotaLido()));
                   },
@@ -162,6 +194,8 @@ class _Lido extends State<Lido> {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: InkWell(
                   onTap: () {
+                    getBevande();
+                    getLettinoSedie();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => PrenotaBar()));
                   },

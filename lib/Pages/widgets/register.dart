@@ -51,10 +51,10 @@ class _RegisterState extends State<Register> {
     User? user2;
     if (password == ConfermaPassword) {
       try {
-        db.collection("users").add(user).then((DocumentReference doc) =>
-            print('DocumentSnapshot added with ID: ${doc.id}'));
         UserCredential userCredential = await auth
             .createUserWithEmailAndPassword(email: email, password: password);
+        db.collection("users").add(user).then((DocumentReference doc) =>
+            print('DocumentSnapshot added with ID: ${doc.id}'));
         user2 = userCredential.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {

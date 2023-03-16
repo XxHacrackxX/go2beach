@@ -30,9 +30,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color.fromARGB(255, 131, 198, 230),
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: Align(
+        alignment: Alignment.center,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: const Color.fromARGB(255, 131, 198, 230),
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.shifting,

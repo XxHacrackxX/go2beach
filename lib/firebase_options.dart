@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,11 +46,23 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAP374S8WwOjMz0fnuO0VBe8GhK4i7ttxI',
+    appId: '1:1084536942223:web:1d4a1852540f0c64024afa',
+    messagingSenderId: '1084536942223',
+    projectId: 'go2beach-15a31',
+    authDomain: 'go2beach-15a31.firebaseapp.com',
+    databaseURL: 'https://go2beach-15a31-default-rtdb.firebaseio.com',
+    storageBucket: 'go2beach-15a31.appspot.com',
+    measurementId: 'G-5TV8YW5DQ5',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAJhBM8Z09eSFsJKq8ID1wHOnAPHWAhaxE',
     appId: '1:1084536942223:android:d65023ecf48b5bca024afa',
     messagingSenderId: '1084536942223',
     projectId: 'go2beach-15a31',
+    databaseURL: 'https://go2beach-15a31-default-rtdb.firebaseio.com',
     storageBucket: 'go2beach-15a31.appspot.com',
   );
 
@@ -62,6 +71,7 @@ class DefaultFirebaseOptions {
     appId: '1:1084536942223:ios:504b23ed2c76757e024afa',
     messagingSenderId: '1084536942223',
     projectId: 'go2beach-15a31',
+    databaseURL: 'https://go2beach-15a31-default-rtdb.firebaseio.com',
     storageBucket: 'go2beach-15a31.appspot.com',
     iosClientId: '1084536942223-ll2oqd599sdojal5703b80nvvlm79rqk.apps.googleusercontent.com',
     iosBundleId: 'com.example.go2beach',

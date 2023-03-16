@@ -40,7 +40,7 @@ class Privacy extends StatelessWidget {
                     Row(
                       children: const [
                         Text(
-                          "Collezionamento di Informazioni e Uso",
+                          "Collezionamento di Informazioni",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,

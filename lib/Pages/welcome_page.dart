@@ -11,6 +11,8 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(64),
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
@@ -30,20 +32,23 @@ class WelcomePage extends StatelessWidget {
 
 Widget _welcomeWidget() {
   return Expanded(
-    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image(
-        image: AssetImage('assets/images/undraw_Beach_day_cser.png'),
-        fit: BoxFit.fitWidth,
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 48.0),
-        child: Text(
-          "go2Beach",
-          style: TextStyle(
-              fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white),
+    child: SingleChildScrollView(
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+        Image(
+          image: AssetImage('assets/images/undraw_Beach_day_cser.png'),
+          fit: BoxFit.fitWidth,
         ),
-      )
-    ]),
+        Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            "go2Beach",
+            style: TextStyle(
+                fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        )
+      ]),
+    ),
   );
 }
 

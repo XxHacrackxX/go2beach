@@ -82,15 +82,11 @@ class _RegisterState extends State<Register> {
         padding: const EdgeInsets.only(top: 24.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Wrap(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
             children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  _formWidget(),
-                  _signInButton(),
-                ],
-              ),
+              _formWidget(),
+              _signInButton(),
             ],
           ),
         ),
@@ -296,7 +292,7 @@ class _RegisterState extends State<Register> {
           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 48),
           child: Text(
             'REGISTRATI',
-            style: TextStyle(color: Colors.white, fontSize: 25),
+            style: TextStyle(color: Colors.white, fontSize: 23),
           ),
         ),
         onPressed: () async {

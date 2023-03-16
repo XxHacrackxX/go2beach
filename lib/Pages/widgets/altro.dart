@@ -17,98 +17,113 @@ class Altro extends StatefulWidget {
 class _Altro extends State<Altro> {
   @override
   Widget build(BuildContext context) {
+    final currenWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.only(left: 55, top: 60, bottom: 30),
       child: Scaffold(
-        body: Container(
-          child: Card(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              elevation: 2.0,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0)),
-              child: Container(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 24),
-                width: 300,
-                child: Column(children: [
-                  const Divider(),
-                  TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.white)),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Privacy(),
-                      ));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          "Informazioni Legali",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(40),
+            child: SingleChildScrollView(
+              child: Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 2.0,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 24),
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(children: [
+                        const Divider(
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
-                  ),
-                  const Divider(height: 20),
-                  TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.white)),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Info()));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          "Informazioni sull' App",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    height: 310,
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.logout),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 83),
-                          child: Text(
-                            'ESCI',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                backgroundColor: Colors.red),
+                        TextButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.white)),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Privacy(),
+                            ));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Informazioni Legali",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                         ),
-                        onPressed: () {
-                          _signOut();
-                          Navigator.of(context).pop(MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                        },
-                      ),
-                    ],
-                  ),
-                ]),
-              )),
+                        const Divider(
+                          height: 20,
+                          color: Colors.white,
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.white)),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Info()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "Informazioni sull' App",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          height: 310,
+                          color: Colors.white,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.logout),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 83),
+                                child: Text(
+                                  'ESCI',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      backgroundColor: Colors.red),
+                                ),
+                              ),
+                              onPressed: () {
+                                _signOut();
+                                Navigator.of(context).pop(MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+                              },
+                            ),
+                          ],
+                        ),
+                      ]),
+                    ),
+                  )),
+            ),
+          ),
         ),
         backgroundColor: Colors.transparent,
       ),

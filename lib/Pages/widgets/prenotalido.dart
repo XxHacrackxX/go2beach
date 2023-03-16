@@ -73,6 +73,8 @@ class _PrenotaLido extends State<PrenotaLido> {
 
   @override
   Widget build(BuildContext context) {
+    final currenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -81,12 +83,12 @@ class _PrenotaLido extends State<PrenotaLido> {
       extendBody: true,
       body: Padding(
           padding:
-              const EdgeInsets.only(left: 47, right: 30, top: 10, bottom: 50),
+              const EdgeInsets.only(left: 40, right: 0, top: 10, bottom: 50),
           child: SingleChildScrollView(
               child: Wrap(children: [
             Column(children: [
               const Text(
-                "Scegli le attrezzature e la posizione",
+                "Scegli le Attrezzature e la Posizione   ",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -102,20 +104,24 @@ class _PrenotaLido extends State<PrenotaLido> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       'assets/images/lettino-spiaggia-alluminio-professional.jpg',
-                      height: 120.0,
-                      width: 160,
+                      height: currenWidth < 600
+                          ? MediaQuery.of(context).size.height / 4
+                          : MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width / 2,
                       fit: BoxFit.cover,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40),
+                    padding: const EdgeInsets.only(left: 20),
                     child: CustomizableCounter(
                       maxCount: Lido.getMaxCountLettini()!,
-                      borderWidth: 5,
+                      borderWidth: MediaQuery.of(context).size.width / 36,
                       borderRadius: 100,
                       backgroundColor: Colors.blue,
                       textColor: Colors.white,
-                      textSize: 22,
+                      textSize: double.parse(
+                              MediaQuery.of(context).size.width.toString()) /
+                          32,
                       onCountChange: (count) {},
                       onIncrement: (count) {
                         setState(() {
@@ -141,20 +147,24 @@ class _PrenotaLido extends State<PrenotaLido> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       'assets/images/ebaydb01b29.jpg',
-                      height: 120.0,
-                      width: 160,
+                      height: currenWidth < 600
+                          ? MediaQuery.of(context).size.height / 4
+                          : MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width / 2,
                       fit: BoxFit.fill,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40),
+                    padding: const EdgeInsets.only(left: 20),
                     child: CustomizableCounter(
                       maxCount: Lido.getMaxCountSedie()!,
-                      borderWidth: 5,
+                      borderWidth: MediaQuery.of(context).size.width / 36,
                       borderRadius: 100,
                       backgroundColor: Colors.blue,
                       textColor: Colors.white,
-                      textSize: 22,
+                      textSize: double.parse(
+                              MediaQuery.of(context).size.width.toString()) /
+                          32,
                       onCountChange: (count) {},
                       onIncrement: (count) {
                         setState(() {
@@ -175,12 +185,17 @@ class _PrenotaLido extends State<PrenotaLido> {
                 height: 40,
                 color: Color.fromARGB(255, 131, 198, 230),
               ),
-              const Text(
-                "Scegli la posizione dell'ombrellone",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Scegli la posizione dell'ombrellone",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               const Divider(
                   height: 20, color: Color.fromARGB(255, 131, 198, 230)),
@@ -193,7 +208,7 @@ class _PrenotaLido extends State<PrenotaLido> {
                 color: Color.fromARGB(255, 131, 198, 230),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
                     style: ButtonStyle(
@@ -210,7 +225,7 @@ class _PrenotaLido extends State<PrenotaLido> {
                     label: const Padding(
                       padding: EdgeInsets.all(20),
                       child: Text(
-                        "Completa la prenotazione",
+                        "  Completa la prenotazione",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -352,6 +367,8 @@ class _PrenotaLido extends State<PrenotaLido> {
 
   Widget Griglia(int i, int j) {
     return Container(
+      height: MediaQuery.of(context).size.height / 10,
+      width: MediaQuery.of(context).size.width / 6,
       decoration: const BoxDecoration(
         image: DecorationImage(
             fit: BoxFit.fill, image: AssetImage("assets/images/sabbia.jpg")),

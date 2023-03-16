@@ -125,6 +125,7 @@ class _visualizzaPBar extends State<visualizzaPBar> {
         children: [
           Divider(
             height: 20,
+            color: Colors.white,
           ),
           Row(
             children: [
@@ -166,6 +167,7 @@ class _visualizzaPBar extends State<visualizzaPBar> {
           ),
           Divider(
             height: 20,
+            color: Colors.white,
           )
         ],
       );

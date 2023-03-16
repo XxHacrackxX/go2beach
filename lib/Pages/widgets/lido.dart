@@ -103,6 +103,8 @@ class _Lido extends State<Lido> {
 
   @override
   Widget build(BuildContext context) {
+    final currenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -111,7 +113,7 @@ class _Lido extends State<Lido> {
       extendBody: true,
       body: Padding(
         padding:
-            const EdgeInsets.only(left: 47, right: 30, top: 10, bottom: 50),
+            const EdgeInsets.only(left: 35, right: 30, top: 10, bottom: 50),
         child: SingleChildScrollView(
           child: Wrap(
             children: [
@@ -162,8 +164,10 @@ class _Lido extends State<Lido> {
                       Ink.image(
                         image: AssetImage(
                             "assets/images/attrezzature-balneari.jpg"),
-                        height: 150,
-                        width: 320,
+                        height: currenWidth < 600
+                            ? MediaQuery.of(context).size.height / 4
+                            : MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fill,
                       ),
                       SizedBox(
@@ -203,8 +207,10 @@ class _Lido extends State<Lido> {
                     children: [
                       Ink.image(
                         image: AssetImage("assets/images/bar.jpg"),
-                        height: 150,
-                        width: 320,
+                        height: currenWidth < 600
+                            ? MediaQuery.of(context).size.height / 4
+                            : MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fill,
                       ),
                       SizedBox(

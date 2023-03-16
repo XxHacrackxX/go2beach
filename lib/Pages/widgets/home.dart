@@ -38,218 +38,246 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final currenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: Padding(
-        padding:
-            const EdgeInsets.only(left: 55, right: 20, top: 50, bottom: 50),
-        child: SingleChildScrollView(
-          child: Wrap(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 50.0),
-                child: Text(
-                  "Bentornato  ${users.map((user) => user['Nome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')} ${users.map((user) => user['Cognome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')}, ${SignIn.getEmail()} ",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Material(
-                color: Colors.blue,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      NomeLido = "Selvetta";
-                    });
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Lido()));
-                  },
-                  child: Column(
-                    children: [
-                      Ink.image(
-                        image: AssetImage("assets/images/selvetta.png"),
-                        height: 150,
-                        width: 300,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Prenota",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      )
-                    ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        alignment: Alignment.center,
+        child: Padding(
+          //
+          padding: const EdgeInsets.all(30),
+          child: SingleChildScrollView(
+            child: Wrap(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 50.0),
+                  child: Text(
+                    "\nBentornato  ${users.map((user) => user['Nome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')} ${users.map((user) => user['Cognome']).toString().replaceAll((r"("), '').replaceAll((r")"), '')}, ${SignIn.getEmail()}",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-              Divider(),
-              Material(
-                color: Colors.blue,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      NomeLido = "Sirenetta";
-                    });
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Lido()));
-                  },
-                  child: Column(
-                    children: [
-                      Ink.image(
-                        image: AssetImage("assets/images/sirenetta.jpg"),
-                        height: 150,
-                        width: 300,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Prenota",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                    ],
+                Divider(
+                  color: const Color.fromARGB(255, 131, 198, 230),
+                ),
+                Material(
+                  color: Colors.blue,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        NomeLido = "Selvetta";
+                      });
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Lido()));
+                    },
+                    child: Column(
+                      children: [
+                        Ink.image(
+                          image: AssetImage("assets/images/selvetta.png"),
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 4
+                              : MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Prenota",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Divider(),
-              Material(
-                color: Colors.blue,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      NomeLido = "Baracchino Rosso";
-                    });
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Lido()));
-                  },
-                  child: Column(
-                    children: [
-                      Ink.image(
-                        image: AssetImage("assets/images/baracchino.jpg"),
-                        height: 150,
-                        width: 300,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Prenota",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                    ],
+                Divider(
+                  color: const Color.fromARGB(255, 131, 198, 230),
+                ),
+                Material(
+                  color: Colors.blue,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        NomeLido = "Sirenetta";
+                      });
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Lido()));
+                    },
+                    child: Column(
+                      children: [
+                        Ink.image(
+                          image: AssetImage("assets/images/sirenetta.jpg"),
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 4
+                              : MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Prenota",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Divider(),
-              Material(
-                color: Colors.blue,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      NomeLido = "Verde";
-                    });
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Lido()));
-                  },
-                  child: Column(
-                    children: [
-                      Ink.image(
-                        image: AssetImage("assets/images/verde.jpg"),
-                        height: 150,
-                        width: 300,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Prenota",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                    ],
+                Divider(
+                  color: const Color.fromARGB(255, 131, 198, 230),
+                ),
+                Material(
+                  color: Colors.blue,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        NomeLido = "Baracchino Rosso";
+                      });
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Lido()));
+                    },
+                    child: Column(
+                      children: [
+                        Ink.image(
+                          image: AssetImage("assets/images/baracchino.jpg"),
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 4
+                              : MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Prenota",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Divider(),
-              Material(
-                color: Colors.blue,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      NomeLido = "Onde Blu";
-                    });
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Lido()));
-                  },
-                  child: Column(
-                    children: [
-                      Ink.image(
-                        image: AssetImage("assets/images/ondeblu.jpg"),
-                        height: 150,
-                        width: 300,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Prenota",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                    ],
+                Divider(
+                  color: const Color.fromARGB(255, 131, 198, 230),
+                ),
+                Material(
+                  color: Colors.blue,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        NomeLido = "Verde";
+                      });
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Lido()));
+                    },
+                    child: Column(
+                      children: [
+                        Ink.image(
+                          image: AssetImage("assets/images/verde.jpg"),
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 4
+                              : MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Prenota",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Divider(
+                  color: const Color.fromARGB(255, 131, 198, 230),
+                ),
+                Material(
+                  color: Colors.blue,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        NomeLido = "Onde Blu";
+                      });
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Lido()));
+                    },
+                    child: Column(
+                      children: [
+                        Ink.image(
+                          image: AssetImage("assets/images/ondeblu.jpg"),
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 4
+                              : MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Prenota",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

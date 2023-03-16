@@ -125,6 +125,7 @@ class _visualizzaPLido extends State<visualizzaPLido> {
         children: [
           Divider(
             height: 20,
+            color: Colors.white,
           ),
           Row(
             children: [
@@ -172,6 +173,7 @@ class _visualizzaPLido extends State<visualizzaPLido> {
           ),
           Divider(
             height: 20,
+            color: Colors.white,
           )
         ],
       );

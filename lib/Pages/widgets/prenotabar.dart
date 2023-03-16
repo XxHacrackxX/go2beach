@@ -89,6 +89,7 @@ class _PrenotaBar extends State<PrenotaBar> {
 
   @override
   Widget build(BuildContext context) {
+    final currenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -119,20 +120,30 @@ class _PrenotaBar extends State<PrenotaBar> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
                           'assets/images/cocacola.jpg',
-                          height: 80.0,
-                          width: 160,
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 6
+                              : MediaQuery.of(context).size.height,
+                          width: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 2.5
+                              : MediaQuery.of(context).size.width / 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40),
+                        padding: const EdgeInsets.only(left: 20),
                         child: CustomizableCounter(
                           maxCount: Lido.getMaxCountCocacola()!,
-                          borderWidth: 5,
+                          borderWidth: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 280
+                              : MediaQuery.of(context).size.width / 36,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
-                          textSize: 22,
+                          textSize: double.parse(MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .toString()) /
+                              32,
                           onCountChange: (count) {},
                           onIncrement: (count) {
                             setState(() {
@@ -158,20 +169,30 @@ class _PrenotaBar extends State<PrenotaBar> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
                           'assets/images/estathè.jpg',
-                          height: 80.0,
-                          width: 160,
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 6
+                              : MediaQuery.of(context).size.height,
+                          width: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 2.5
+                              : MediaQuery.of(context).size.width / 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40),
+                        padding: const EdgeInsets.only(left: 20),
                         child: CustomizableCounter(
                           maxCount: Lido.getMaxCountEstathe()!,
-                          borderWidth: 5,
+                          borderWidth: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 280
+                              : MediaQuery.of(context).size.width / 36,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
-                          textSize: 22,
+                          textSize: double.parse(MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .toString()) /
+                              32,
                           onCountChange: (count) {},
                           onIncrement: (count) {
                             setState(() {
@@ -197,20 +218,30 @@ class _PrenotaBar extends State<PrenotaBar> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
                           'assets/images/Koto_CaseStudy_Fanta_003-1_1921cae71.jpg',
-                          height: 80.0,
-                          width: 160,
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 6
+                              : MediaQuery.of(context).size.height,
+                          width: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 2.5
+                              : MediaQuery.of(context).size.width / 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40),
+                        padding: const EdgeInsets.only(left: 20),
                         child: CustomizableCounter(
                           maxCount: Lido.getMaxCountFanta()!,
-                          borderWidth: 5,
+                          borderWidth: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 280
+                              : MediaQuery.of(context).size.width / 36,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
-                          textSize: 22,
+                          textSize: double.parse(MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .toString()) /
+                              32,
                           onCountChange: (count) {},
                           onIncrement: (count) {
                             setState(() {
@@ -235,21 +266,31 @@ class _PrenotaBar extends State<PrenotaBar> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
-                          'assets/images/levissima.png',
-                          height: 80.0,
-                          width: 160,
+                          'assets/images/San_Benedetto_Standard.jpg',
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 6
+                              : MediaQuery.of(context).size.height,
+                          width: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 2.5
+                              : MediaQuery.of(context).size.width / 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40),
+                        padding: const EdgeInsets.only(left: 20),
                         child: CustomizableCounter(
                           maxCount: Lido.getMaxCountAcqua()!,
-                          borderWidth: 5,
+                          borderWidth: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 280
+                              : MediaQuery.of(context).size.width / 36,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
-                          textSize: 22,
+                          textSize: double.parse(MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .toString()) /
+                              32,
                           onCountChange: (count) {},
                           onIncrement: (count) {
                             setState(() {
@@ -275,20 +316,30 @@ class _PrenotaBar extends State<PrenotaBar> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
                           'assets/images/aperol.jpg',
-                          height: 80.0,
-                          width: 160,
+                          height: currenWidth < 600
+                              ? MediaQuery.of(context).size.height / 6
+                              : MediaQuery.of(context).size.height,
+                          width: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 2.5
+                              : MediaQuery.of(context).size.width / 2,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 40),
+                        padding: const EdgeInsets.only(left: 20),
                         child: CustomizableCounter(
                           maxCount: Lido.getMaxCountSpritz()!,
-                          borderWidth: 5,
+                          borderWidth: currenWidth < 600
+                              ? MediaQuery.of(context).size.width / 280
+                              : MediaQuery.of(context).size.width / 36,
                           borderRadius: 100,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
-                          textSize: 22,
+                          textSize: double.parse(MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .toString()) /
+                              32,
                           onCountChange: (count) {},
                           onIncrement: (count) {
                             setState(() {

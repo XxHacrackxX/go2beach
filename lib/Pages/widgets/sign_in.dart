@@ -32,7 +32,7 @@ class _SignInState extends State<SignIn> {
           email: email, password: password);
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == "invalid-email" || e.code == "wrong-password") {
+      if (e.code == "user-not-found" || e.code == "wrong-password") {
         print("Email o password sbagliata");
         customAlertDialog(context);
       }
